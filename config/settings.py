@@ -22,7 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
 
-environ.Env.read_env(os.path.join(BASE_DIR, '.env.local'))
+#environ.Env.read_env(os.path.join(BASE_DIR, '.env.local'))
+
+ENVIRONMENT = os.getenv('DJANGO_ENV', 'local')
+env_file = f'.env.{ENVIRONMENT}'
+environ.Env.read_env(os.path.join(BASE_DIR, env_file))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0.7/howto/deployment/checklist/
@@ -33,7 +37,38 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', default=True)
 
-ALLOWED_HOSTS = ['*']
+import socket
+
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
+
+def get_local_ips():
+    ips = set()
+
+    # método 1: hostname
+    try:
+        hostname = socket.gethostname()
+        ips.add(socket.gethostbyname(hostname))
+    except:
+        pass
+
+    # método 2: detectar IP real de red
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))  # no hace conexión real
+        ips.add(s.getsockname()[0])
+        s.close()
+    except:
+        pass
+
+    # agregar localhost
+    ips.update(["127.0.0.1", "localhost"])
+    #print(f"IPs locales detectadas: {ips}")
+    return ips
+
+CSRF_TRUSTED_ORIGINS = list({
+    f"http://{ip}:8000"
+    for ip in get_local_ips()
+})
 
 # Application definition
 
@@ -65,6 +100,7 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -73,6 +109,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'crum.CurrentRequestUserMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -139,9 +176,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0.7/topics/i18n/
 
-LANGUAGE_CODE = 'es-ec'
+LANGUAGE_CODE = 'es-BO'
 
-TIME_ZONE = 'US/Pacific'
+TIME_ZONE = 'America/La_Paz'
 
 USE_I18N = True
 
@@ -204,3 +241,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 GROUPS = {
     'customer': 2
 }
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'

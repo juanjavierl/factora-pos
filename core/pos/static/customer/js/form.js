@@ -28,11 +28,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     validators: {
                         notEmpty: {},
                         stringLength: {
-                            min: 10
+                            min: 7
                         },
                         digits: {},
                         callback: {
-                            message: 'El número de cedula o ruc es incorrecto',
+                            message: 'El número de cedula o NIT es incorrecto',
                             callback: function (input) {
                                 return validate_dni_ruc(input.value);
                             },

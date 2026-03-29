@@ -24,7 +24,7 @@ from core.user.models import User
 
 
 class Company(models.Model):
-    ruc = models.CharField(max_length=13, help_text='Ingrese un número de RUC', verbose_name='Número de RUC')
+    ruc = models.CharField(max_length=13, help_text='Ingrese un número de NIT', verbose_name='Número de cédula o NIT')
     name = models.CharField(max_length=50, help_text='Ingrese el nombre comercial', verbose_name='Nombre Comercial')
     address = models.CharField(max_length=200, help_text='Ingrese la dirección del Establecimiento Matriz', verbose_name='Dirección del Establecimiento Matriz')
     image = models.ImageField(upload_to='company/%Y/%m/%d', null=True, blank=True, verbose_name='Logotipo')
@@ -88,7 +88,7 @@ class Company(models.Model):
 
 class Provider(models.Model):
     name = models.CharField(max_length=50, unique=True, help_text='Ingrese un nombre', verbose_name='Nombre')
-    ruc = models.CharField(max_length=13, unique=True, help_text='Ingrese un RUC', verbose_name='RUC')
+    ruc = models.CharField(max_length=13, unique=True, help_text='Ingrese un NIT', verbose_name='NIT')
     mobile = models.CharField(max_length=10, unique=True, help_text='Ingrese un número de teléfono celular', verbose_name='Teléfono celular')
     address = models.CharField(max_length=500, null=True, blank=True, help_text='Ingrese una dirección', verbose_name='Dirección')
     email = models.CharField(max_length=50, unique=True, help_text='Ingrese un email', verbose_name='Email')
@@ -212,7 +212,7 @@ class Product(models.Model):
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    dni = models.CharField(max_length=13, unique=True, help_text='Ingrese un número de cédula o RUC', verbose_name='Número de cédula o RUC')
+    dni = models.CharField(max_length=13, unique=True, help_text='Ingrese un número de cédula o NIT', verbose_name='Número de cédula o NIT')
     mobile = models.CharField(max_length=10, null=True, blank=True, help_text='Ingrese un teléfono', verbose_name='Teléfono')
     birthdate = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
     address = models.CharField(max_length=500, null=True, blank=True, help_text='Ingrese una dirección', verbose_name='Dirección')

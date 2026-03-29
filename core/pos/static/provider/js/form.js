@@ -40,11 +40,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     validators: {
                         notEmpty: {},
                         stringLength: {
-                            min: 13
+                            min: 7
                         },
                         digits: {},
                         callback: {
-                            message: 'El número de ruc es incorrecto',
+                            message: 'El número de NIT es incorrecto',
                             callback: function (input) {
                                 return validate_dni_ruc(input.value);
                             },
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                                     action: 'validate_data'
                                 };
                             },
-                            message: 'El número de ruc ya se encuentra registrado',
+                            message: 'El número de NIT ya se encuentra registrado',
                             method: 'POST',
                             headers: {
                                 'X-CSRFToken': csrftoken
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     validators: {
                         notEmpty: {},
                         stringLength: {
-                            min: 10
+                            min: 8
                         },
                         digits: {},
                         remote: {

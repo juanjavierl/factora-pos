@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     validators: {
                         notEmpty: {},
                         stringLength: {
-                            min: 13,
+                            min: 7,
                         },
                         digits: {},
                     }
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     validators: {
                         notEmpty: {},
                         stringLength: {
-                            min: 10,
+                            min: 8,
                         },
                         digits: {},
                     }
