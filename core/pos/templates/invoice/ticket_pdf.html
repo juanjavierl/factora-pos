@@ -156,10 +156,14 @@
         </tbody>
     </table>
     <p class="terms">
+        gracias por su compra<br>
+        fecha: {% now "d/m/Y H:i" %}
+    </p>
+    <!-- <p class="terms">
         Para acceder a sus documentos electrónicos debe ingresar al portal http://{{ object.company.website }}<br>
         Con su usuario {{ object.customer.user.username }} y clave {{ object.customer.user.username }}.<br>
         Si tiene dificultad para ingresar o descargar sus comprobantes puede comunicarse al correo {{ object.company.email }}
-    </p>
+    </p> -->
 </div>
 </body>
 </html>
